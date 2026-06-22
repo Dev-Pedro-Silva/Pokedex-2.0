@@ -4,9 +4,6 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,    
-    fetchPokemon,
-    buscarPorNome,
-    tiposImagens,
     Image,
     TextInput,
     ScrollView
@@ -61,7 +58,7 @@ export default function HomeScreen({ navigation }) {
 
             setPokemon(poke);
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     };
 
