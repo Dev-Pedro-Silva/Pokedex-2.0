@@ -3,14 +3,17 @@ import {
   View,
   Text,
   FlatList,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 
 import { db } from "../services/firebaseConfig";
 
 import {
   collection,
-  getDocs
+  getDocs,
+  deleteDoc,
+  doc
 } from "firebase/firestore";
 
 export default function FavoritosScreen({ navigation }) {
@@ -44,6 +47,22 @@ export default function FavoritosScreen({ navigation }) {
     }
   }
 
+  async function excluirFavorito(id) {
+    try {
+
+      await deleteDoc(
+        doc(db, "favoritos", id)
+      );
+
+      carregarFavoritos();
+
+      alert("Favorito removido!");
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View style={styles.container}>
 
@@ -56,9 +75,22 @@ export default function FavoritosScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.card}>
+
             <Text style={styles.nome}>
               {item.nome}
             </Text>
+
+            <TouchableOpacity
+              style={styles.btnExcluir}
+              onPress={() =>
+                excluirFavorito(item.id)
+              }
+            >
+              <Text style={styles.txtBtn}>
+                Excluir
+              </Text>
+            </TouchableOpacity>
+
           </View>
         )}
       />
@@ -93,5 +125,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+  },
+
+  btnExcluir: {
+    backgroundColor: "#cc0000",
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 8,
+  },
+
+  txtBtn: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
