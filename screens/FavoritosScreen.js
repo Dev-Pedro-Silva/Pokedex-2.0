@@ -1,6 +1,11 @@
+import { db } from "../services/firebaseConfig";
 import { View, Text, TouchableOpacity } from "react-native";
 
 export default function FavoritosScreen({ navigation }) {
+
+  console.log("TESTE FIREBASE");
+  console.log(db);
+
   return (
     <View
       style={{
