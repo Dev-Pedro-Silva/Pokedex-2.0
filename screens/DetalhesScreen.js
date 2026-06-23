@@ -7,8 +7,38 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { db } from "../services/firebaseConfig";
+
+import {
+  collection,
+  addDoc
+} from "firebase/firestore";
+
 export default function DetalhesScreen({ route, navigation }) {
   const pokemon = route?.params?.pokemon;
+  async function salvarFavorito() {
+    try {
+
+      await addDoc(
+        collection(db, "favoritos"),
+        {
+          idPokemon: pokemon.id,
+          nome: pokemon.nome,
+          imagem: pokemon.imagem,
+          apelido: pokemon.nome,
+          tipo1: pokemon.tipo1,
+          tipo2: pokemon.tipo2 || null,
+        }
+      );
+
+      alert("Pokémon favoritado com sucesso!");
+
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao salvar favorito.");
+    }
+  }
+
   if (!pokemon) {
     return (
       <View style={styles.container}>
@@ -40,6 +70,15 @@ export default function DetalhesScreen({ route, navigation }) {
           Tipo 2: {pokemon.tipo2}
         </Text>
       )}
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={salvarFavorito}
+      >
+        <Text style={styles.txtBtn}>
+          Favoritar Pokémon
+        </Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.btn}
