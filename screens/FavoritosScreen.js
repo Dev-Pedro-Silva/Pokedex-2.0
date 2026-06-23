@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native";
 
 import { db } from "../services/firebaseConfig";
@@ -13,7 +14,8 @@ import {
   collection,
   getDocs,
   deleteDoc,
-  doc
+  doc,
+  updateDoc
 } from "firebase/firestore";
 
 export default function FavoritosScreen({ navigation }) {
@@ -63,6 +65,25 @@ export default function FavoritosScreen({ navigation }) {
     }
   }
 
+  async function atualizarApelido(id, novoApelido) {
+    try {
+
+      await updateDoc(
+        doc(db, "favoritos", id),
+        {
+          apelido: novoApelido,
+        }
+      );
+
+      carregarFavoritos();
+
+      alert("Apelido atualizado!");
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View style={styles.container}>
 
@@ -79,6 +100,32 @@ export default function FavoritosScreen({ navigation }) {
             <Text style={styles.nome}>
               {item.nome}
             </Text>
+
+            <Text style={styles.apelido}>
+              Apelido: {item.apelido}
+            </Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Novo apelido"
+              onChangeText={(texto) => {
+                item.novoApelido = texto;
+              }}
+            />
+
+            <TouchableOpacity
+              style={styles.btnSalvar}
+              onPress={() =>
+                atualizarApelido(
+                  item.id,
+                  item.novoApelido || item.apelido
+                )
+              }
+            >
+              <Text style={styles.txtBtn}>
+                Salvar
+              </Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnExcluir}
@@ -138,5 +185,24 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+  },
+
+  input: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 10,
+  },
+
+  apelido: {
+    color: "white",
+    marginTop: 5,
+  },
+
+  btnSalvar: {
+    backgroundColor: "green",
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 8,
   },
 });
