@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   Text,
   Image,
   StyleSheet,
   TouchableOpacity,
+  Animated
 } from "react-native";
 
 import { db } from "../services/firebaseConfig";
@@ -16,6 +17,19 @@ import {
 
 export default function DetalhesScreen({ route, navigation }) {
   const pokemon = route?.params?.pokemon;
+
+  const scaleAnim = useRef(
+    new Animated.Value(0)
+  ).current;
+
+  useEffect(() => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 5,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   async function salvarFavorito() {
     try {
 
@@ -52,9 +66,18 @@ export default function DetalhesScreen({ route, navigation }) {
     <View style={styles.container}>
       <Text style={styles.nome}>{pokemon.nome}</Text>
 
-      <Image
+      <Animated.Image
         source={{ uri: pokemon.imagem }}
-        style={styles.imagem}
+        style={[
+          styles.imagem,
+          {
+            transform: [
+              {
+                scale: scaleAnim,
+              },
+            ],
+          },
+        ]}
       />
 
       <Text style={styles.info}>
