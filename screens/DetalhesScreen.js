@@ -86,59 +86,61 @@ export default function DetalhesScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.nome}>{pokemon.nome}</Text>
+      <View style={styles.conteudo}>
+        <Text style={styles.nome}>{pokemon.nome}</Text>
 
-      <Animated.Image
-        source={{ uri: pokemon.imagem }}
-        style={[
-          styles.imagem,
-          {
-            transform: [
-              {
-                scale: scaleAnim,
-              },
-            ],
-          },
-        ]}
-      />
-
-      <Text style={styles.info}>
-        Tipos
-      </Text>
-
-      <View style={styles.areaTipos}>
-
-        <Image
-          source={tiposImagens[pokemon.tipo1]}
-          style={styles.tipoImg}
+        <Animated.Image
+          source={{ uri: pokemon.imagem }}
+          style={[
+            styles.imagem,
+            {
+              transform: [
+                {
+                  scale: scaleAnim,
+                },
+              ],
+            },
+          ]}
         />
 
-        {pokemon.tipo2 && (
+        <Text style={styles.info}>
+          Tipos
+        </Text>
+
+        <View style={styles.areaTipos}>
+
           <Image
-            source={tiposImagens[pokemon.tipo2]}
+            source={tiposImagens[pokemon.tipo1]}
             style={styles.tipoImg}
           />
-        )}
 
+          {pokemon.tipo2 && (
+            <Image
+              source={tiposImagens[pokemon.tipo2]}
+              style={styles.tipoImg}
+            />
+          )}
+
+        </View>
+
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={salvarFavorito}
+        >
+          <Text style={styles.txtBtn}>
+            Favoritar Pokémon
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.txtBtn}>
+            Voltar
+          </Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={salvarFavorito}
-      >
-        <Text style={styles.txtBtn}>
-          Favoritar Pokémon
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.txtBtn}>
-          Voltar
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -146,6 +148,14 @@ export default function DetalhesScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+  },
+
+  conteudo: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 500,
     backgroundColor: "#0066ff",
     alignItems: "center",
     justifyContent: "center",

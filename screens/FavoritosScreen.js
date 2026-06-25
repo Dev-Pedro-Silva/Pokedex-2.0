@@ -108,85 +108,87 @@ export default function FavoritosScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.conteudo}>
 
-      <Text style={styles.titulo}>
-        Favoritos
-      </Text>
+        <Text style={styles.titulo}>
+          Favoritos
+        </Text>
 
-      <FlatList
-        data={favoritos}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
+        <FlatList
+          data={favoritos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
 
-            <Image
-              source={{ uri: item.imagem }}
-              style={styles.imagemFavorito}
-            />
+              <Image
+                source={{ uri: item.imagem }}
+                style={styles.imagemFavorito}
+              />
 
-            <Text style={styles.apelidoPrincipal}>
-              {item.apelido}
-            </Text>
+              <Text style={styles.apelidoPrincipal}>
+                {item.apelido}
+              </Text>
 
-            <Text style={styles.nomeOriginal}>
-              {item.nome}
-            </Text>
+              <Text style={styles.nomeOriginal}>
+                {item.nome}
+              </Text>
 
-            {editando === item.id ? (
-              <>
-                <TextInput
-                  style={styles.input}
-                  value={novoApelido}
-                  onChangeText={setNovoApelido}
-                  placeholder="Novo apelido"
-                />
+              {editando === item.id ? (
+                <>
+                  <TextInput
+                    style={styles.input}
+                    value={novoApelido}
+                    onChangeText={setNovoApelido}
+                    placeholder="Novo apelido"
+                  />
 
-                <TouchableOpacity
-                  style={styles.btnSalvar}
-                  onPress={() => salvarEdicao(item.id)}
-                >
-                  <Text style={styles.txtBtn}>
-                    Salvar
-                  </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btnSalvar}
+                    onPress={() => salvarEdicao(item.id)}
+                  >
+                    <Text style={styles.txtBtn}>
+                      Salvar
+                    </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.btnCancelar}
-                  onPress={() => setEditando(null)}
-                >
-                  <Text style={styles.txtBtn}>
-                    Cancelar
-                  </Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <View style={styles.areaBotoes}>
+                  <TouchableOpacity
+                    style={styles.btnCancelar}
+                    onPress={() => setEditando(null)}
+                  >
+                    <Text style={styles.txtBtn}>
+                      Cancelar
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <View style={styles.areaBotoes}>
 
-                <TouchableOpacity
-                  style={styles.btnEditar}
-                  onPress={() => iniciarEdicao(item)}
-                >
-                  <Text style={styles.txtBtn}>
-                    Editar
-                  </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btnEditar}
+                    onPress={() => iniciarEdicao(item)}
+                  >
+                    <Text style={styles.txtBtn}>
+                      Editar
+                    </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.btnExcluir}
-                  onPress={() => excluirFavorito(item.id)}
-                >
-                  <Text style={styles.txtBtn}>
-                    Excluir
-                  </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btnExcluir}
+                    onPress={() => excluirFavorito(item.id)}
+                  >
+                    <Text style={styles.txtBtn}>
+                      Excluir
+                    </Text>
+                  </TouchableOpacity>
 
-              </View>
-            )}
+                </View>
+              )}
 
-          </View>
-        )}
-      />
+            </View>
+          )}
+        />
 
+      </View>
     </View>
   );
 }
@@ -194,6 +196,14 @@ export default function FavoritosScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+  },
+
+  conteudo: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 500,
     backgroundColor: "#0066ff",
     padding: 20,
   },
