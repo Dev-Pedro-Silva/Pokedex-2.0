@@ -5,7 +5,8 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Image
 } from "react-native";
 
 import { db } from "../services/firebaseConfig";
@@ -98,8 +99,13 @@ export default function FavoritosScreen({ navigation }) {
           <View style={styles.card}>
 
             <Text style={styles.nome}>
-              {item.nome}
+              {item.apelido}
             </Text>
+
+            <Image
+              source={{ uri: item.imagem }}
+              style={styles.imagemFavorito}
+            />
 
             <Text style={styles.apelido}>
               Apelido: {item.apelido}
@@ -204,5 +210,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 8,
+  },
+
+  imagemFavorito: {
+    width: 120,
+    height: 120,
+    alignSelf: "center",
+    marginBottom: 10,
   },
 });
