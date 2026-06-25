@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     txtInfo: {
         fontSize: 20,
         fontWeight: "bold",
+        color: "white"
     },
     areaMenu: {
         marginVertical: 20,
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     input: {
-        backgroundColor: "rgb(73, 73, 73)",
+        backgroundColor: "rgb(212, 212, 212)",
         borderWidth: 1,
         width: 200,
         height: 40,

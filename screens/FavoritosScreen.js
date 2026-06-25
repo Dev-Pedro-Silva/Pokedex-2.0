@@ -110,6 +110,15 @@ export default function FavoritosScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.conteudo}>
 
+        <TouchableOpacity
+          style={styles.btnVoltar}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.txtBtn}>
+            ← Voltar
+          </Text>
+        </TouchableOpacity>
+
         <Text style={styles.titulo}>
           Favoritos
         </Text>
@@ -306,5 +315,13 @@ const styles = StyleSheet.create({
     color: "#d9d9d9",
     fontSize: 14,
     marginTop: 3,
+  },
+
+  btnVoltar: {
+    backgroundColor: "#164ea1",
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: "flex-start",
+    marginBottom: 15,
   },
 });
