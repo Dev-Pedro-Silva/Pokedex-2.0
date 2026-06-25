@@ -62,6 +62,28 @@ export default function DetalhesScreen({ route, navigation }) {
       </View>
     );
   }
+
+  const tiposImagens = {
+    normal: require("../assets/tipos/tipo_normal.png"),
+    fire: require("../assets/tipos/tipo_fogo.png"),
+    water: require("../assets/tipos/tipo_agua.png"),
+    electric: require("../assets/tipos/tipo_eletrico.png"),
+    grass: require("../assets/tipos/tipo_grama.png"),
+    ice: require("../assets/tipos/tipo_gelo.png"),
+    fighting: require("../assets/tipos/tipo_lutador.png"),
+    poison: require("../assets/tipos/tipo_venenoso.png"),
+    ground: require("../assets/tipos/tipo_terra.png"),
+    flying: require("../assets/tipos/tipo_voador.png"),
+    psychic: require("../assets/tipos/tipo_pisiquico.png"),
+    bug: require("../assets/tipos/tipo_inseto.png"),
+    rock: require("../assets/tipos/tipo_pedra.png"),
+    ghost: require("../assets/tipos/tipo_fantasma.png"),
+    dragon: require("../assets/tipos/tipo_dragao.png"),
+    dark: require("../assets/tipos/tipo_sombrio.png"),
+    steel: require("../assets/tipos/tipo_aco.png"),
+    fairy: require("../assets/tipos/tipo_fada.png"),
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.nome}>{pokemon.nome}</Text>
@@ -81,18 +103,24 @@ export default function DetalhesScreen({ route, navigation }) {
       />
 
       <Text style={styles.info}>
-        ID: {pokemon.id}
+        Tipos
       </Text>
 
-      <Text style={styles.info}>
-        Tipo 1: {pokemon.tipo1}
-      </Text>
+      <View style={styles.areaTipos}>
 
-      {pokemon.tipo2 && (
-        <Text style={styles.info}>
-          Tipo 2: {pokemon.tipo2}
-        </Text>
-      )}
+        <Image
+          source={tiposImagens[pokemon.tipo1]}
+          style={styles.tipoImg}
+        />
+
+        {pokemon.tipo2 && (
+          <Image
+            source={tiposImagens[pokemon.tipo2]}
+            style={styles.tipoImg}
+          />
+        )}
+
+      </View>
 
       <TouchableOpacity
         style={styles.btn}
@@ -156,5 +184,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+  },
+
+  areaTipos: {
+    flexDirection: "row",
+    marginVertical: 15,
+  },
+
+  tipoImg: {
+    width: 80,
+    height: 80,
+    marginHorizontal: 5,
   },
 });

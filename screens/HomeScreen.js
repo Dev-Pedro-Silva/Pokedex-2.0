@@ -112,26 +112,7 @@ export default function HomeScreen({ navigation }) {
                             <Text style={styles.txtDesc}>Nome: </Text>
                             <Text style={styles.txtInfo}>{pokemon?.nome}</Text>
                         </View>
-
-                        <View style={styles.areaTipo}>
-                            <Text style={styles.txtTipo}>Tipo: </Text>
-
-                            {pokemon?.tipo1 && (
-                                <Image
-                                    source={tiposImagens[pokemon?.tipo1]}
-                                    style={styles.imgTipo}
-                                />
-                            )}
-                            {pokemon?.tipo2 && (
-                                <Text style={styles.txtTipo}>Tipo 2: </Text>
-                            )}
-                            {pokemon?.tipo2 && (
-                                <Image
-                                    source={tiposImagens[pokemon?.tipo2]}
-                                    style={styles.imgTipo}
-                                />
-                            )}
-                        </View>
+                        
                     </View>
 
                     <View style={styles.areaMenu}>
@@ -230,18 +211,6 @@ const styles = StyleSheet.create({
     txtInfo: {
         fontSize: 20,
         fontWeight: "bold",
-    },
-    areaTipo: {
-        flexDirection: "row",
-    },
-    txtTipo: {
-        alignSelf: "center",
-        color: "white",
-        fontSize: 16,
-    },
-    imgTipo: {
-        width: 70,
-        height: 70
     },
     areaMenu: {
         marginVertical: 20,
