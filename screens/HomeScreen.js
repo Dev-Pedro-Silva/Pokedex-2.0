@@ -6,14 +6,36 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    ScrollView
+    ScrollView,
+    Animated
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function HomeScreen({ navigation }) {
     const [pokemon, setPokemon] = useState(null);
     const [id, setId] = useState(1);
     const [BuscarNome, setBuscarNome] = useState("");
+    const pulseAnim = useRef(
+        new Animated.Value(1)
+    ).current;
+
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(pulseAnim, {
+                    toValue: 1.08,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+
+                Animated.timing(pulseAnim, {
+                    toValue: 1,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+    }, []);
 
     useEffect(() => {
         fetchPokemon();
@@ -100,7 +122,19 @@ export default function HomeScreen({ navigation }) {
                         </View>
 
                         <View style={styles.areaImagem}>
-                            <Image source={{ uri: pokemon.imagem }} style={styles.imagemPoke} />
+                            <Animated.Image
+                                source={{ uri: pokemon.imagem }}
+                                style={[
+                                    styles.imagemPoke,
+                                    {
+                                        transform: [
+                                            {
+                                                scale: pulseAnim,
+                                            },
+                                        ],
+                                    },
+                                ]}
+                            />
                         </View>
 
                         <View style={styles.areaDesc}>
@@ -164,28 +198,28 @@ export default function HomeScreen({ navigation }) {
                                 <View style={styles.linhaBotoes}>
 
                                     <TouchableOpacity
-                                    style={styles.btnPequeno}
-                                    onPress={() =>
-                                        navigation.navigate("Detalhes", {
-                                            pokemon: pokemon,
-                                        })
-                                    }
-                                >
-                                    <Text style={styles.txtBtn}>
-                                        Detalhes
-                                    </Text>
-                                </TouchableOpacity>
+                                        style={styles.btnPequeno}
+                                        onPress={() =>
+                                            navigation.navigate("Detalhes", {
+                                                pokemon: pokemon,
+                                            })
+                                        }
+                                    >
+                                        <Text style={styles.txtBtn}>
+                                            Detalhes
+                                        </Text>
+                                    </TouchableOpacity>
 
-                                <TouchableOpacity
-                                    style={styles.btnPequeno}
-                                    onPress={() =>
-                                        navigation.navigate("Favoritos")
-                                    }
-                                >
-                                    <Text style={styles.txtBtn}>
-                                        Favoritos
-                                    </Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.btnPequeno}
+                                        onPress={() =>
+                                            navigation.navigate("Favoritos")
+                                        }
+                                    >
+                                        <Text style={styles.txtBtn}>
+                                            Favoritos
+                                        </Text>
+                                    </TouchableOpacity>
 
                                 </View>
 
@@ -259,6 +293,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 10,
     },
+        
     areaBtn: {
         flexDirection: "column",
         width: "100%",

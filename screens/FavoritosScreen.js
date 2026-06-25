@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   View,
@@ -7,7 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image
+  Image,
+  Animated
 } from "react-native";
 
 import { db } from "../services/firebaseConfig";
@@ -26,13 +27,35 @@ export default function FavoritosScreen({ navigation }) {
 
   const [mensagem, setMensagem] = useState("");
 
+  const fadeAnim = useRef(
+    new Animated.Value(0)
+  ).current;
+
+  const slideAnim = useRef(
+    new Animated.Value(50)
+  ).current;
+
   const [favoritos, setFavoritos] = useState([]);
 
   const [editando, setEditando] = useState(null);
   const [novoApelido, setNovoApelido] = useState("");
 
   useEffect(() => {
+
     carregarFavoritos();
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
   }, []);
 
   async function carregarFavoritos() {
@@ -103,7 +126,7 @@ export default function FavoritosScreen({ navigation }) {
 
       setTimeout(() => {
         setMensagem("");
-      }, 2000);      
+      }, 2000);
     }
   }
 
@@ -114,7 +137,7 @@ export default function FavoritosScreen({ navigation }) {
 
   async function salvarEdicao(id) {
 
-    if (!novoApelido.trim()) {      
+    if (!novoApelido.trim()) {
       setMensagem("Digite um apelido.");
 
       setTimeout(() => {
@@ -154,7 +177,19 @@ export default function FavoritosScreen({ navigation }) {
           data={favoritos}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: fadeAnim,
+                  transform: [
+                    {
+                      translateY: slideAnim,
+                    },
+                  ],
+                },
+              ]}
+            >
 
               <Image
                 source={{ uri: item.imagem }}
@@ -220,7 +255,7 @@ export default function FavoritosScreen({ navigation }) {
                 </View>
               )}
 
-            </View>
+            </Animated.View>
           )}
         />
 
@@ -300,13 +335,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 8,
-  },
-
-  imagemFavorito: {
-    width: 120,
-    height: 120,
-    alignSelf: "center",
-    marginBottom: 10,
   },
 
   imagemFavorito: {

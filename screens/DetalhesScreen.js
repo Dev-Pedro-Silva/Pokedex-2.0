@@ -28,7 +28,7 @@ export default function DetalhesScreen({ route, navigation }) {
   useEffect(() => {
     Animated.spring(scaleAnim, {
       toValue: 1,
-      friction: 5,
+      friction: 3,
       useNativeDriver: true,
     }).start();
   }, []);
