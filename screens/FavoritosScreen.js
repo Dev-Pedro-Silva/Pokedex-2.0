@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   View,
   Text,
@@ -18,8 +19,12 @@ import {
   doc,
   updateDoc
 } from "firebase/firestore";
+import MensagemAlerta from "../components/MensagemAlerta";
+
 
 export default function FavoritosScreen({ navigation }) {
+
+  const [mensagem, setMensagem] = useState("");
 
   const [favoritos, setFavoritos] = useState([]);
 
@@ -62,7 +67,11 @@ export default function FavoritosScreen({ navigation }) {
 
       carregarFavoritos();
 
-      alert("Favorito removido!");
+      setMensagem("Favorito removido!");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);
 
     } catch (error) {
       console.log(error);
@@ -81,10 +90,20 @@ export default function FavoritosScreen({ navigation }) {
 
       carregarFavoritos();
 
-      alert("Apelido atualizado!");
+      setMensagem("Apelido atualizado!");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);
 
     } catch (error) {
       console.log(error);
+
+      setMensagem("Erro ao atualizar apelido.");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);      
     }
   }
 
@@ -95,8 +114,13 @@ export default function FavoritosScreen({ navigation }) {
 
   async function salvarEdicao(id) {
 
-    if (!novoApelido.trim()) {
-      alert("Digite um apelido.");
+    if (!novoApelido.trim()) {      
+      setMensagem("Digite um apelido.");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);
+
       return;
     }
 
@@ -108,6 +132,9 @@ export default function FavoritosScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+
+      <MensagemAlerta mensagem={mensagem} />
+
       <View style={styles.conteudo}>
 
         <TouchableOpacity
@@ -198,7 +225,9 @@ export default function FavoritosScreen({ navigation }) {
         />
 
       </View>
+
     </View>
+
   );
 }
 
@@ -241,9 +270,11 @@ const styles = StyleSheet.create({
 
   btnExcluir: {
     backgroundColor: "#cc0000",
-    marginTop: 10,
-    padding: 10,
+    width: 120,
+    height: 45,
     borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   txtBtn: {
@@ -293,8 +324,11 @@ const styles = StyleSheet.create({
 
   btnEditar: {
     backgroundColor: "#ff9800",
-    padding: 10,
+    width: 120,
+    height: 45,
     borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   btnCancelar: {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -14,8 +14,11 @@ import {
   collection,
   addDoc
 } from "firebase/firestore";
-
+import MensagemAlerta from "../components/MensagemAlerta";
 export default function DetalhesScreen({ route, navigation }) {
+
+  const [mensagem, setMensagem] = useState("");
+
   const pokemon = route?.params?.pokemon;
 
   const scaleAnim = useRef(
@@ -45,11 +48,19 @@ export default function DetalhesScreen({ route, navigation }) {
         }
       );
 
-      alert("Pokémon favoritado com sucesso!");
+      setMensagem("Pokémon favoritado com sucesso!");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);
 
     } catch (error) {
       console.log(error);
-      alert("Erro ao salvar favorito.");
+      setMensagem("Erro ao salvar favorito.");
+
+      setTimeout(() => {
+        setMensagem("");
+      }, 2000);
     }
   }
 
@@ -86,6 +97,9 @@ export default function DetalhesScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+
+      <MensagemAlerta mensagem={mensagem} />
+
       <View style={styles.conteudo}>
         <Text style={styles.nome}>{pokemon.nome}</Text>
 
