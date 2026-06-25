@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,    
+    TouchableOpacity,
     Image,
     TextInput,
     ScrollView
@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
 
             setPokemon(poke);
         } catch (error) {
-            console.log(error); 
+            console.log(error);
         }
     };
 
@@ -88,104 +88,132 @@ export default function HomeScreen({ navigation }) {
 
     return (
         pokemon && (
-            <ScrollView contentContainerStyle={styles.container}>
+            <View contentContainerStyle={styles.container}>
                 {/*<Text style={{ fontSize: 25, color: "white" }}>
                     POKEDEX
                 </Text>*/}
 
                 <View style={styles.container}>
-                    <View style={styles.areaLogo}>
-                        <Image source={require("../assets/logo.png")} />
-                    </View>
-
-                    <View style={styles.areaImagem}>
-                        <Image source={{ uri: pokemon.imagem }} style={styles.imagemPoke} />
-                    </View>
-
-                    <View style={styles.areaDesc}>
-                        <View style={styles.areaId}>
-                            <Text style={styles.txtDesc}>ID: </Text>
-                            <Text style={styles.txtInfo}>{pokemon?.id}</Text>
+                    <View style={styles.conteudo}>
+                        <View style={styles.areaLogo}>
+                            <Image source={require("../assets/logo.png")} />
                         </View>
 
-                        <View style={styles.areaNome}>
-                            <Text style={styles.txtDesc}>Nome: </Text>
-                            <Text style={styles.txtInfo}>{pokemon?.nome}</Text>
+                        <View style={styles.areaImagem}>
+                            <Image source={{ uri: pokemon.imagem }} style={styles.imagemPoke} />
                         </View>
-                        
+
+                        <View style={styles.areaDesc}>
+                            <View style={styles.areaId}>
+                                <Text style={styles.txtDesc}>ID: </Text>
+                                <Text style={styles.txtInfo}>{pokemon?.id}</Text>
+                            </View>
+
+                            <View style={styles.areaNome}>
+                                <Text style={styles.txtDesc}>Nome: </Text>
+                                <Text style={styles.txtInfo}>{pokemon?.nome}</Text>
+                            </View>
+
+                        </View>
+
+                        <View style={styles.areaMenu}>
+                            <View style={styles.areaBusca}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Digite o nome do Pokemón"
+                                    value={BuscarNome}
+                                    onChangeText={setBuscarNome}
+                                />
+                                <TouchableOpacity style={styles.btn} onPress={buscarPorNome}>
+                                    <Text style={styles.txtBtn}>Buscar</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.areaBtn}>
+
+                                <View style={styles.linhaBotoes}>
+
+                                    <TouchableOpacity
+                                        style={styles.btnPequeno}
+                                        onPress={() => id > 1 && setId(id - 1)}
+                                    >
+                                        <Text style={styles.txtBtn}>
+                                            Anterior
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={styles.btnPequeno}
+                                        onPress={() => setId(id + 1)}
+                                    >
+                                        <Text style={styles.txtBtn}>
+                                            Próximo
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
+                                <TouchableOpacity
+                                    style={styles.btnGrande}
+                                    onPress={() => setId(1)}
+                                >
+                                    <Text style={styles.txtBtn}>
+                                        Voltar Início
+                                    </Text>
+                                </TouchableOpacity>
+
+                                <View style={styles.linhaBotoes}>
+
+                                    <TouchableOpacity
+                                    style={styles.btnPequeno}
+                                    onPress={() =>
+                                        navigation.navigate("Detalhes", {
+                                            pokemon: pokemon,
+                                        })
+                                    }
+                                >
+                                    <Text style={styles.txtBtn}>
+                                        Detalhes
+                                    </Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.btnPequeno}
+                                    onPress={() =>
+                                        navigation.navigate("Favoritos")
+                                    }
+                                >
+                                    <Text style={styles.txtBtn}>
+                                        Favoritos
+                                    </Text>
+                                </TouchableOpacity>
+
+                                </View>
+
+                            </View>
+                        </View>
+                        <StatusBar style="auto" />
                     </View>
-
-                    <View style={styles.areaMenu}>
-                        <View style={styles.areaBusca}>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Digite o nome do Pokemón"
-                                value={BuscarNome}
-                                onChangeText={setBuscarNome}
-                            />
-                            <TouchableOpacity style={styles.btn} onPress={buscarPorNome}>
-                                <Text style={styles.txtBtn}>Buscar</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.areaBtn}>
-
-                            <TouchableOpacity style={styles.btn} onPress={() => setId(1)}>
-                                <Text style={styles.txtBtn}>Voltar Início</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => id > 1 && setId(id - 1)}
-                            >
-                                <Text style={styles.txtBtn}>Anterior</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={styles.btn} onPress={() => setId(id + 1)}>
-                                <Text style={styles.txtBtn}>Próximo</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() =>
-                                    navigation.navigate("Detalhes", {
-                                        pokemon: pokemon,
-                                    })
-                                }
-                            >
-                                <Text style={styles.txtBtn}>
-                                    Detalhes
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() =>
-                                    navigation.navigate("Favoritos")
-                                }
-                            >
-                                <Text style={styles.txtBtn}>
-                                    Favoritos
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <StatusBar style="auto" />
                 </View>
 
-            </ScrollView>
+            </View>
         )
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
-        padding: 20,
+        flex: 1,
+        backgroundColor: "#ffffff",
+        alignItems: "center",
+    },
+    conteudo: {
+        flex: 1,
+        width: "100%",
+        maxWidth: 500,
         backgroundColor: "#0066ff",
         alignItems: "center",
         justifyContent: "center",
-        maxWidth: 500,
-        alignSelf: "center"
+        padding: 20,
     },
     areaLogo: {
         marginTop: 20,
@@ -231,7 +259,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     areaBtn: {
-        flexDirection: "row",
+        flexDirection: "column",
         width: "100%",
         justifyContent: "space-between",
         gap: 5,
@@ -257,5 +285,29 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderRadius: 100,
         backgroundColor: "rgb(238, 255, 0)"
+    },
+
+    linhaBotoes: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+        marginVertical: 5,
+    },
+
+    btnGrande: {
+        backgroundColor: "#164ea1",
+        padding: 12,
+        borderRadius: 10,
+        width: 220,
+        alignItems: "center",
+        marginVertical: 5,
+    },
+
+    btnPequeno: {
+        backgroundColor: "#164ea1",
+        padding: 12,
+        borderRadius: 10,
+        width: 105,
+        alignItems: "center",
     },
 });
