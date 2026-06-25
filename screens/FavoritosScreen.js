@@ -23,6 +23,9 @@ export default function FavoritosScreen({ navigation }) {
 
   const [favoritos, setFavoritos] = useState([]);
 
+  const [editando, setEditando] = useState(null);
+  const [novoApelido, setNovoApelido] = useState("");
+
   useEffect(() => {
     carregarFavoritos();
   }, []);
@@ -85,6 +88,24 @@ export default function FavoritosScreen({ navigation }) {
     }
   }
 
+  function iniciarEdicao(item) {
+    setEditando(item.id);
+    setNovoApelido(item.apelido);
+  }
+
+  async function salvarEdicao(id) {
+
+    if (!novoApelido.trim()) {
+      alert("Digite um apelido.");
+      return;
+    }
+
+    await atualizarApelido(id, novoApelido);
+
+    setEditando(null);
+    setNovoApelido("");
+  }
+
   return (
     <View style={styles.container}>
 
@@ -98,51 +119,69 @@ export default function FavoritosScreen({ navigation }) {
         renderItem={({ item }) => (
           <View style={styles.card}>
 
-            <Text style={styles.nome}>
-              {item.apelido}
-            </Text>
-
             <Image
               source={{ uri: item.imagem }}
               style={styles.imagemFavorito}
             />
 
-            <Text style={styles.apelido}>
-              Apelido: {item.apelido}
+            <Text style={styles.apelidoPrincipal}>
+              {item.apelido}
             </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Novo apelido"
-              onChangeText={(texto) => {
-                item.novoApelido = texto;
-              }}
-            />
+            <Text style={styles.nomeOriginal}>
+              {item.nome}
+            </Text>
 
-            <TouchableOpacity
-              style={styles.btnSalvar}
-              onPress={() =>
-                atualizarApelido(
-                  item.id,
-                  item.novoApelido || item.apelido
-                )
-              }
-            >
-              <Text style={styles.txtBtn}>
-                Salvar
-              </Text>
-            </TouchableOpacity>
+            {editando === item.id ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={novoApelido}
+                  onChangeText={setNovoApelido}
+                  placeholder="Novo apelido"
+                />
 
-            <TouchableOpacity
-              style={styles.btnExcluir}
-              onPress={() =>
-                excluirFavorito(item.id)
-              }
-            >
-              <Text style={styles.txtBtn}>
-                Excluir
-              </Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btnSalvar}
+                  onPress={() => salvarEdicao(item.id)}
+                >
+                  <Text style={styles.txtBtn}>
+                    Salvar
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.btnCancelar}
+                  onPress={() => setEditando(null)}
+                >
+                  <Text style={styles.txtBtn}>
+                    Cancelar
+                  </Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <View style={styles.areaBotoes}>
+
+                <TouchableOpacity
+                  style={styles.btnEditar}
+                  onPress={() => iniciarEdicao(item)}
+                >
+                  <Text style={styles.txtBtn}>
+                    Editar
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.btnExcluir}
+                  onPress={() => excluirFavorito(item.id)}
+                >
+                  <Text style={styles.txtBtn}>
+                    Excluir
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
+            )}
 
           </View>
         )}
@@ -170,8 +209,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#164ea1",
     padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
+    borderRadius: 15,
+    marginBottom: 15,
+    alignItems: "center",
   },
 
   nome: {
@@ -217,5 +257,44 @@ const styles = StyleSheet.create({
     height: 120,
     alignSelf: "center",
     marginBottom: 10,
+  },
+
+  imagemFavorito: {
+    width: 120,
+    height: 120,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+
+  areaBotoes: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 10,
+  },
+
+  btnEditar: {
+    backgroundColor: "#ff9800",
+    padding: 10,
+    borderRadius: 8,
+  },
+
+  btnCancelar: {
+    backgroundColor: "#666",
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+
+  apelidoPrincipal: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+
+  nomeOriginal: {
+    color: "#d9d9d9",
+    fontSize: 14,
+    marginTop: 3,
   },
 });
